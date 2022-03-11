@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { useEffect } from "react";
 import tw from "tailwind-styled-components";
 import Map from "../components/Map";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -17,8 +18,23 @@ const Home: NextPage = () => {
           </Profile>
         </Header>
         {/* ActionButtons */}
-
-        {/* InputButton */}
+        <ActionButtons>
+          <Link href="/search">
+            <ActionButton>
+              <ActionButtonImage src="https://i.ibb.co/cyvcpfF/uberx.png" />
+              Ride
+            </ActionButton>
+          </Link>
+          <ActionButton>
+            <ActionButtonImage src="https://i.ibb.co/n776JLm/bike.png" />
+            2-Wheels
+          </ActionButton>
+          <ActionButton>
+            <ActionButtonImage src="https://i.ibb.co/5RjchBg/uberschedule.png" />
+            Reserve
+          </ActionButton>
+        </ActionButtons>
+        <InputButton>Where to?</InputButton>
       </ActionItems>
     </Wrapper>
   );
@@ -31,7 +47,7 @@ const Wrapper = tw.div`
 `;
 
 const ActionItems = tw.div`
-  flex-1
+  flex-1 px-4
 `;
 
 const Header = tw.header`
@@ -52,4 +68,21 @@ const Name = tw.div`
 
 const UserImage = tw.img`
   h-12 w-12 rounded-full border border-gray-200 p-px
+`;
+
+const ActionButtons = tw.div`
+  flex
+`;
+
+const ActionButton = tw.div`
+  bg-gray-200 flex-1 m-1 h-32 flex flex-col justify-center items-center cursor-pointer rounded-lg
+  transition transition-duration-100 transform hover:scale-105 text-xl
+`;
+
+const ActionButtonImage = tw.img`
+  h-3/5
+`;
+
+const InputButton = tw.div`
+  h-20 bg-gray-200 text-xl p-4 flex items-center justify-left mt-5 cursor-pointer
 `;
