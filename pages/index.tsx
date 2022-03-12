@@ -3,10 +3,14 @@ import { useEffect } from "react";
 import tw from "tailwind-styled-components";
 import Map from "../components/Map";
 import Link from "next/link";
+import Head from "next/head";
 
 const Home: NextPage = () => {
   return (
     <Wrapper>
+      <Head>
+        <title>Uber Clone</title>
+      </Head>
       <Map />
       <ActionItems>
         {/* Header */}
@@ -19,7 +23,7 @@ const Home: NextPage = () => {
         </Header>
         {/* ActionButtons */}
         <ActionButtons>
-          <Link href="/search">
+          <Link href="/search" passHref>
             <ActionButton>
               <ActionButtonImage src="https://i.ibb.co/cyvcpfF/uberx.png" />
               Ride

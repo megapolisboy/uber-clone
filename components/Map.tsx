@@ -3,8 +3,9 @@ import tw from "tailwind-styled-components";
 import mapboxgl from "!mapbox-gl";
 import { useEffect } from "react";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoibWFwY29kZXIiLCJhIjoiY2wwbWpsbW05MHE4cDNicGUyMzliMmk5diJ9.0WmcLprpUi-zr9_5C_YKig";
+const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN as string;
+
+mapboxgl.accessToken = ACCESS_TOKEN;
 
 const Map = () => {
   useEffect(() => {
@@ -14,7 +15,15 @@ const Map = () => {
       zoom: 3,
       center: [-99.29011, 39.39172],
     });
+
+    addToMap(map);
   }, []);
+
+  const addToMap = (map: any) => {
+    const marker1 = new mapboxgl.Marker()
+      .setLngLat([12.554729, 55.70651])
+      .addTo(map);
+  };
 
   return <Wrapper id="map">Map</Wrapper>;
 };
