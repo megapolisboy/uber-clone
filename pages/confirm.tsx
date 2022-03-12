@@ -3,12 +3,15 @@ import tw from "tailwind-styled-components";
 import Map from "../components/Map";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN as string;
 
 type CoordinateType = "pickup" | "dropoff";
 
 const Confirm: NextPage = () => {
+  const router = useRouter();
+  const { pickup, dropoff } = router.query;
   const [pickupCoordinates, setPickupCoordinates] = useState<number[]>([]);
   const [dropoffCoordinates, setDropoffCoordinates] = useState<number[]>([]);
 
@@ -31,9 +34,9 @@ const Confirm: NextPage = () => {
   };
 
   useEffect(() => {
-    getCoordinates("pickup", "New York");
-    getCoordinates("dropoff", "Los Angeles");
-  }, []);
+    getCoordinates("pickup", pickup! as string);
+    getCoordinates("dropoff", dropoff! as string);
+  }, [dropoff, pickup]);
 
   return (
     <Wrapper>

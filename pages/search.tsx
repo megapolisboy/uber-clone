@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-interface FormData {
+export interface RideData {
   pickup: string;
   dropoff: string;
 }
@@ -16,7 +16,7 @@ const Search: NextPage = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<RideData>();
 
   const router = useRouter();
 
