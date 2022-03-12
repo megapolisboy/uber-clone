@@ -2,10 +2,36 @@ import { NextPage } from "next";
 import tw from "tailwind-styled-components";
 import Link from "next/link";
 import Head from "next/head";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+
+interface FormData {
+  pickup: string;
+  dropoff: string;
+}
 
 const Search: NextPage = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const router = useRouter();
+
+  const onSubmit = handleSubmit((data) => {
+    router.push({
+      pathname: "/confirm",
+      query: {
+        pickup: data.pickup,
+        dropoff: data.dropoff,
+      },
+    });
+  });
+
   return (
-    <Wrapper>
+    <Wrapper onSubmit={onSubmit}>
       <Head>
         <title>Search ride</title>
       </Head>
@@ -21,8 +47,14 @@ const Search: NextPage = () => {
           <Square />
         </FromToIcons>
         <InputBoxes>
-          <Input placeholder="Enter pickup location" />
-          <Input placeholder="Where to?" />
+          <Input
+            placeholder="Enter pickup location"
+            {...register("pickup", { required: true })}
+          />
+          <Input
+            placeholder="Where to?"
+            {...register("dropoff", { required: true })}
+          />
         </InputBoxes>
         <PlusIcon src="https://img.icons8.com/ios/50/000000/plus-math.png" />
       </InputContainer>
@@ -31,7 +63,9 @@ const Search: NextPage = () => {
         Saved Places
       </SavedPlaces>
       <ConfirmLocation>
-        <ConfirmLocationButton>Confirm Locations</ConfirmLocationButton>
+        <ConfirmLocationButton type="submit">
+          Confirm Locations
+        </ConfirmLocationButton>
       </ConfirmLocation>
     </Wrapper>
   );
@@ -39,7 +73,7 @@ const Search: NextPage = () => {
 
 export default Search;
 
-const Wrapper = tw.div`
+const Wrapper = tw.form`
   bg-gray-200 h-screen
 `;
 

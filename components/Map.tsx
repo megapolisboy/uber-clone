@@ -7,7 +7,12 @@ const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN as string;
 
 mapboxgl.accessToken = ACCESS_TOKEN;
 
-const Map = () => {
+interface MapProps {
+  pickupCoordinates: number[];
+  dropoffCoordinates: number[];
+}
+
+const Map: React.FC<MapProps> = ({ pickupCoordinates, dropoffCoordinates }) => {
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: "map",
@@ -15,14 +20,22 @@ const Map = () => {
       zoom: 3,
       center: [-99.29011, 39.39172],
     });
+    if (pickupCoordinates?.length) {
+      addToMap(pickupCoordinates, map);
+    }
+    if (dropoffCoordinates?.length) {
+      addToMap(dropoffCoordinates, map);
+    }
 
-    addToMap(map);
-  }, []);
+    if (pickupCoordinates?.length && dropoffCoordinates?.length) {
+      map.fitBounds([pickupCoordinates, dropoffCoordinates], {
+        padding: 60,
+      });
+    }
+  }, [pickupCoordinates, dropoffCoordinates]);
 
-  const addToMap = (map: any) => {
-    const marker1 = new mapboxgl.Marker()
-      .setLngLat([12.554729, 55.70651])
-      .addTo(map);
+  const addToMap = (coordinates: number[], map: any) => {
+    const marker1 = new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
   };
 
   return <Wrapper id="map">Map</Wrapper>;

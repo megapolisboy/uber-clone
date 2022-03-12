@@ -40,7 +40,10 @@ const Confirm: NextPage = () => {
       <Head>
         <title>Confirm ride</title>
       </Head>
-      <Map />
+      <Map
+        pickupCoordinates={pickupCoordinates}
+        dropoffCoordinates={dropoffCoordinates}
+      />
       <RideContainer>Ride Selector Confirm Button</RideContainer>
     </Wrapper>
   );
