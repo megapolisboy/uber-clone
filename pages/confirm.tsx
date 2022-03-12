@@ -4,6 +4,7 @@ import Map from "../components/Map";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import RideSelector from "../components/RideSelector";
 
 const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN as string;
 
@@ -47,7 +48,12 @@ const Confirm: NextPage = () => {
         pickupCoordinates={pickupCoordinates}
         dropoffCoordinates={dropoffCoordinates}
       />
-      <RideContainer>Ride Selector Confirm Button</RideContainer>
+      <RideContainer>
+        <RideSelector />
+        <ConfirmButtonContainer>
+          <ConfirmButton>Confirm UberX</ConfirmButton>
+        </ConfirmButtonContainer>
+      </RideContainer>
     </Wrapper>
   );
 };
@@ -59,5 +65,13 @@ const Wrapper = tw.div`
 `;
 
 const RideContainer = tw.div`
-    flex-1
+    flex-1 flex flex-col
+`;
+
+const ConfirmButtonContainer = tw.div`
+    flex justify-center item-center
+`;
+
+const ConfirmButton = tw.button`
+  bg-black text-white my-4 mx-4 py-4 text-center text-xl w-full
 `;
