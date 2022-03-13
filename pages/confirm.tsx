@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import RideSelector from "../components/RideSelector";
+import Link from "next/link";
 
 const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN as string;
 
@@ -48,8 +49,16 @@ const Confirm: NextPage = () => {
         pickupCoordinates={pickupCoordinates}
         dropoffCoordinates={dropoffCoordinates}
       />
+      <ButtonContainer>
+        <Link href="/search" passHref>
+          <BackButton src="https://img.icons8.com/ios-filled/50/000000/left.png" />
+        </Link>
+      </ButtonContainer>
       <RideContainer>
-        <RideSelector />
+        <RideSelector
+          pickupCoordinates={pickupCoordinates}
+          dropoffCoordinates={dropoffCoordinates}
+        />
         <ConfirmButtonContainer>
           <ConfirmButton>Confirm UberX</ConfirmButton>
         </ConfirmButtonContainer>
@@ -65,7 +74,7 @@ const Wrapper = tw.div`
 `;
 
 const RideContainer = tw.div`
-    flex-1 flex flex-col
+    flex-1 flex flex-col h-1/2
 `;
 
 const ConfirmButtonContainer = tw.div`
@@ -74,4 +83,12 @@ const ConfirmButtonContainer = tw.div`
 
 const ConfirmButton = tw.button`
   bg-black text-white my-4 mx-4 py-4 text-center text-xl w-full
+`;
+
+const ButtonContainer = tw.div`
+  bg-white px-4 py-2 absolute bg-red-500 bg-transparent
+`;
+
+const BackButton = tw.img`
+  h-10 cursor-pointer rounded-full bg-white shadow-md 
 `;

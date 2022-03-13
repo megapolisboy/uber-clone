@@ -1,14 +1,27 @@
+import { LargeNumberLike } from "crypto";
 import tw from "tailwind-styled-components";
 
-const Car: React.FC = () => {
+interface CarProps {
+  imgUrl: string;
+  service: string;
+  multiplier: number;
+  rideDuration: number;
+}
+
+const Car: React.FC<CarProps> = ({
+  imgUrl,
+  service,
+  multiplier,
+  rideDuration,
+}) => {
   return (
     <Wrap>
-      <CarImage src="https://i.ibb.co/cyvcpfF/uberx.png" />
+      <CarImage src={imgUrl} />
       <CarDetails>
-        <Service>UberX</Service>
+        <Service>{service}</Service>
         <Time>5 min away</Time>
       </CarDetails>
-      <Price>$24.00</Price>
+      <Price>${(rideDuration * multiplier).toFixed(2)}</Price>
     </Wrap>
   );
 };

@@ -8,8 +8,8 @@ const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN as string;
 mapboxgl.accessToken = ACCESS_TOKEN;
 
 interface MapProps {
-  pickupCoordinates: number[];
-  dropoffCoordinates: number[];
+  pickupCoordinates?: number[];
+  dropoffCoordinates?: number[];
 }
 
 const Map: React.FC<MapProps> = ({ pickupCoordinates, dropoffCoordinates }) => {
@@ -44,5 +44,5 @@ const Map: React.FC<MapProps> = ({ pickupCoordinates, dropoffCoordinates }) => {
 export default Map;
 
 const Wrapper = tw.div`
-  flex-1 
+  flex-1
 `;
