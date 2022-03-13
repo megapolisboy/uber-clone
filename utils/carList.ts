@@ -1,6 +1,4 @@
-import { CarProps } from "../components/Car";
-
-export const carList: CarProps[] = [
+export const carList = [
   {
     imgUrl: "https://i.ibb.co/cyvcpfF/uberx.png",
     service: "UberX",
