@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import tw from "tailwind-styled-components";
 import Map from "../components/Map";
 import Head from "next/head";
@@ -11,34 +11,17 @@ const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN as string;
 
 type CoordinateType = "pickup" | "dropoff";
 
-const Confirm: NextPage = () => {
+interface NextPageProps {
+  pickupCoordinates: number[];
+  dropoffCoordinates: number[];
+}
+
+const Confirm: NextPage<NextPageProps> = ({
+  pickupCoordinates,
+  dropoffCoordinates,
+}) => {
   const router = useRouter();
-  const { pickup, dropoff } = router.query;
-  const [pickupCoordinates, setPickupCoordinates] = useState<number[]>([]);
-  const [dropoffCoordinates, setDropoffCoordinates] = useState<number[]>([]);
-
-  const getCoordinates = (type: CoordinateType, location: string) => {
-    fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?` +
-        new URLSearchParams({
-          access_token: ACCESS_TOKEN,
-          limit: "1",
-        })
-    )
-      .then((response) => response.json())
-      .then((data: any) => {
-        if (type === "pickup") {
-          setPickupCoordinates(data.features[0].center);
-        } else {
-          setDropoffCoordinates(data.features[0].center);
-        }
-      });
-  };
-
-  useEffect(() => {
-    getCoordinates("pickup", pickup! as string);
-    getCoordinates("dropoff", dropoff! as string);
-  }, [dropoff, pickup]);
+  console.log(pickupCoordinates, dropoffCoordinates);
 
   return (
     <Wrapper>
@@ -68,6 +51,33 @@ const Confirm: NextPage = () => {
 };
 
 export default Confirm;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const getCoordinates = async (type: CoordinateType, location: string) => {
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?` +
+        new URLSearchParams({
+          access_token: ACCESS_TOKEN,
+          limit: "1",
+        })
+    );
+    const data = await response.json();
+
+    return data.features[0].center;
+  };
+
+  const pickup = context.query.pickup as string;
+  const dropoff = context.query.dropoff as string;
+
+  const pickupCoordinates: number[] = await getCoordinates("pickup", pickup);
+  const dropoffCoordinates: number[] = await getCoordinates("pickup", dropoff);
+  return {
+    props: {
+      pickupCoordinates,
+      dropoffCoordinates,
+    },
+  };
+};
 
 const Wrapper = tw.div`
     flex flex-col h-screen
